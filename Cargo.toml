@@ -1,0 +1,97 @@
+[package]
+name = "bilibili_client"
+version = "0.1.0"
+edition = "2024"
+description = "Bilibili command line client for Linux"
+license = "MIT"
+
+[[bin]]
+name = "bilic"
+path = "src/main.rs"
+
+[workspace]
+members = ["vendor/biliup", "vendor/danmaku-factory"]
+resolver = "3"
+
+[workspace.package]
+version = "0.1.0"
+
+# 与 biliup 核心 crate 保持一致的共享依赖；TLS 统一走 rustls，避免 Linux 上依赖 OpenSSL。
+[workspace.dependencies]
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+serde_yaml = "0.9.34"
+serde_urlencoded = "0.7"
+toml = "0.8"
+bytes = "1.10.1"
+rand = "0.8"
+
+tokio = { version = "1", features = ["macros", "rt-multi-thread", "process", "signal", "sync"] }
+futures = "0.3.31"
+async-trait = "0.1.87"
+
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["local-time"] }
+
+thiserror = "2"
+error-stack = "0.6.0"
+
+time = { version = "0.3", features = ["serde"] }
+chrono = { version = "0.4", features = ["serde"] }
+
+bon = "3.7.2"
+regex = "1.11.1"
+reqwest = { version = "0.13.4", default-features = false, features = [
+    "cookies",
+    "form",
+    "query",
+    "json",
+    "stream",
+    "charset",
+    "http2",
+    "brotli",
+    "gzip",
+    "default-tls",
+] }
+url = "2.5"
+quick-xml = "0.37"
+
+[profile.release]
+strip = true
+lto = "thin"
+codegen-units = 16
+
+[dependencies]
+biliup = { path = "vendor/biliup" }
+danmaku-factory = { path = "vendor/danmaku-factory" }
+
+serde = { workspace = true }
+serde_json = { workspace = true }
+toml = { workspace = true }
+tokio = { workspace = true, features = ["full"] }
+futures = { workspace = true }
+tracing = { workspace = true }
+tracing-subscriber = { workspace = true, features = ["env-filter"] }
+thiserror = { workspace = true }
+chrono = { workspace = true }
+time = { workspace = true }
+url = { workspace = true }
+reqwest = { workspace = true }
+bytes = { workspace = true }
+
+anyhow = "1"
+clap = { version = "4", features = ["derive", "env", "wrap_help"] }
+clap_complete = "4"
+indicatif = "0.18"
+qrcode = { version = "0.14", default-features = false }
+md5 = "0.7"
+urlencoding = "2.1"
+flate2 = "1"
+brotli = "7"
+tokio-tungstenite = { version = "0.29", default-features = false, features = [
+    "connect",
+    "native-tls",
+] }
+dirs = "6.0"
+humantime = "2.2"
+tempfile = "3.14"

@@ -1,0 +1,10 @@
+/target
+**/*.rs.bk
+*.part
+cookies.json
+cookies.txt
+data/
+.env
+qrcode.png
+tests/artifacts/
+.login/
